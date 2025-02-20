@@ -2,7 +2,7 @@ import { MovieCardProps, MovieGridProps } from "@/types/movie";
 
 const MovieCard = ({ title, posterUrl, rating }: MovieCardProps) => {
   return (
-    <div className="relative group cursor-pointer rounded-lg overflow-hidden bg-black/10 shadow-lg hover:shadow-2xl transition-all duration-300">
+    <div className="relative group cursor-pointer rounded-lg overflow-hidden bg-gray-800 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
       <div className="overflow-hidden rounded-lg">
         <img
           src={posterUrl}
@@ -13,13 +13,13 @@ const MovieCard = ({ title, posterUrl, rating }: MovieCardProps) => {
 
       {rating && (
         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <div className="flex items-center justify-center w-20 h-20 border-6 border-yellow-500 rounded-full bg-black/60">
+          <div className="flex items-center justify-center w-20 h-20 border-4 border-yellow-500 rounded-full bg-black/70">
             <span className="text-white font-semibold text-xl">{rating}%</span>
           </div>
         </div>
       )}
 
-      <h3 className="absolute inset-x-0 bottom-4 text-sm font-medium text-center text-white bg-black/60 p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+      <h3 className="absolute inset-x-0 bottom-4 text-sm font-medium text-center text-white bg-black/70 p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
         {title}
       </h3>
     </div>

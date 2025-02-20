@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { getMovies } from "./service/api";
 import { MovieGrid } from "./components/MovieGrid";
-import { Header } from "./components/header";
 import { ThemeProvider } from "./components/hooks/theme-provider";
 import { Movie } from "./types/movie";
+import { Header } from "./components/header";
+import { SearchBar } from "./components/SearchBar";
 
 function App() {
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -20,6 +21,7 @@ function App() {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <Header />
+      <SearchBar />
       <main className="container mx-auto">
         <MovieGrid movies={movies} />
       </main>
