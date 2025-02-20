@@ -5,6 +5,7 @@ import { ThemeProvider } from "./components/hooks/theme-provider";
 import { Movie } from "./types/movie";
 import { Header } from "./components/header";
 import { SearchBar } from "./components/SearchBar";
+import { PagePagination } from "./components/PagePagination";
 
 function App() {
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -25,6 +26,7 @@ function App() {
       <main className="container mx-auto">
         <MovieGrid movies={movies} />
       </main>
+      <PagePagination />
     </ThemeProvider>
   );
 }
