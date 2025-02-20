@@ -1,7 +1,7 @@
 import logoLight from "../assets/logo-cubos-light.svg";
 import logoDark from "../assets/logo-cubos-dark.svg";
-import { useTheme } from "./theme-provider";
-import { ModeToggle } from "./mode-toggle";
+import { useTheme } from "./hooks/theme-provider";
+import { ModeToggle } from "./hooks/mode-toggle";
 import { Separator } from "@/components/ui/separator";
 
 export function Header() {
