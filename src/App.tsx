@@ -1,26 +1,27 @@
+import { useEffect, useState } from "react";
+import { getMovies } from "./service/api";
+import { MovieGrid } from "./components/MovieGrid";
 import { Header } from "./components/header";
 import { ThemeProvider } from "./components/hooks/theme-provider";
-import { MovieGrid } from "./components/MovieGrid";
-
-const mockMovies = [
-  {
-    id: 1,
-    title: "movie",
-    posterUrl: "https://picsum.photos/200/300",
-  },
-  {
-    id: 2,
-    title: "movie2",
-    posterUrl: "https://picsum.photos/200/300",
-  },
-];
+import { Movie } from "./types/movie";
 
 function App() {
+  const [movies, setMovies] = useState<Movie[]>([]);
+
+  useEffect(() => {
+    const fetchMovies = async () => {
+      const movieData = await getMovies();
+      setMovies(movieData);
+    };
+
+    fetchMovies();
+  }, []);
+
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <Header />
       <main className="container mx-auto">
-        <MovieGrid movies={mockMovies} />
+        <MovieGrid movies={movies} />
       </main>
     </ThemeProvider>
   );

@@ -1,14 +1,8 @@
-import { MovieGridProps } from "@/types/movie";
-
-interface MovieCardProps {
-  title: string;
-  posterUrl: string;
-  rating?: number;
-}
+import { MovieCardProps, MovieGridProps } from "@/types/movie";
 
 const MovieCard = ({ title, posterUrl, rating }: MovieCardProps) => {
   return (
-    <div className="relative group cursor-pointer">
+    <div className="relative group cursor-pointer rounded-lg overflow-hidden bg-black/10 shadow-lg hover:shadow-2xl transition-all duration-300">
       <div className="overflow-hidden rounded-lg">
         <img
           src={posterUrl}
@@ -16,12 +10,18 @@ const MovieCard = ({ title, posterUrl, rating }: MovieCardProps) => {
           className="w-full h-[300px] object-cover transition-transform duration-300 group-hover:scale-110"
         />
       </div>
+
       {rating && (
-        <div className="absolute top-2 left-2 bg-black/60 rounded-full p-2">
-          <span className="text-white font-medium">{rating}%</span>
+        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <div className="flex items-center justify-center w-20 h-20 border-6 border-yellow-500 rounded-full bg-black/60">
+            <span className="text-white font-semibold text-xl">{rating}%</span>
+          </div>
         </div>
       )}
-      <h3 className="mt-2 text-sm font-medium text-center">{title}</h3>
+
+      <h3 className="absolute inset-x-0 bottom-4 text-sm font-medium text-center text-white bg-black/60 p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        {title}
+      </h3>
     </div>
   );
 };
