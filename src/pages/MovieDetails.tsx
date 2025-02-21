@@ -14,7 +14,7 @@ const StatCard = ({
 
   return (
     <div className="bg-[#1E1D1B] text-white rounded-lg p-4 shadow-lg w-full">
-      <p className="font-semibold uppercase text-sm text-gray-400 text-center">
+      <p className="font-semibold uppercase text-sm text-gray-400 text-center overflow-hidden text-ellipsis">
         {title}
       </p>
       <p
