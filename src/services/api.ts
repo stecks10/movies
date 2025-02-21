@@ -12,7 +12,7 @@ const api = axios.create({
 export const getMovies = async (): Promise<Movie[]> => {
   try {
     const response = await api.get<{ results: MovieResponse[] }>(
-      "/movie/now_playing?language=en-US&page=2"
+      "/movie/now_playing?language=en-US&page=1"
     );
 
     return response.data.results.map((movie) => ({
