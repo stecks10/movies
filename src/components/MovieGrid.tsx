@@ -1,8 +1,20 @@
 import { MovieCardProps, MovieGridProps } from "@/types/movie";
+import { useNavigate } from "react-router-dom";
+import { PagePagination } from "./PagePagination";
+import { SearchBar } from "./SearchBar";
 
-const MovieCard = ({ title, posterUrl, rating }: MovieCardProps) => {
+const MovieCard = ({ id, title, posterUrl, rating }: MovieCardProps) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/movie/${id}`);
+  };
+
   return (
-    <div className="relative group cursor-pointer rounded-lg overflow-hidden bg-gray-800 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+    <div
+      onClick={handleClick}
+      className="relative group cursor-pointer rounded-lg overflow-hidden bg-gray-800 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1"
+    >
       <div className="overflow-hidden rounded-lg">
         <img
           src={posterUrl}
@@ -28,15 +40,21 @@ const MovieCard = ({ title, posterUrl, rating }: MovieCardProps) => {
 
 export function MovieGrid({ movies }: MovieGridProps) {
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 p-4">
-      {movies.map((movie) => (
-        <MovieCard
-          key={movie.id}
-          title={movie.title}
-          posterUrl={movie.posterUrl}
-          rating={movie.rating}
-        />
-      ))}
-    </div>
+    <>
+      <SearchBar />
+
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 p-4">
+        {movies.map((movie) => (
+          <MovieCard
+            id={movie.id}
+            key={movie.id}
+            title={movie.title}
+            posterUrl={movie.posterUrl}
+            rating={movie.rating}
+          />
+        ))}
+      </div>
+      <PagePagination />
+    </>
   );
 }
