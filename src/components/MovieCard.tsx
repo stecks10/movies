@@ -1,7 +1,9 @@
-import { MovieCardProps, MovieGridProps } from "@/types/movie";
+import { Movie, MovieCardProps } from "@/types/movie";
 import { useNavigate } from "react-router-dom";
 import { PagePagination } from "./PagePagination";
 import { SearchBar } from "./SearchBar";
+import { getMovies, searchMovies } from "@/services/api";
+import { useState, useEffect } from "react";
 
 const MovieCard = ({ id, title, posterUrl, rating }: MovieCardProps) => {
   const navigate = useNavigate();
@@ -38,22 +40,63 @@ const MovieCard = ({ id, title, posterUrl, rating }: MovieCardProps) => {
   );
 };
 
-export function MovieGrid({ movies }: MovieGridProps) {
+interface MovieGridProps {
+  initialMovies: Movie[];
+}
+
+export function MovieGrid({ initialMovies }: MovieGridProps) {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [movies, setMovies] = useState<Movie[]>(initialMovies || []);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    setMovies(initialMovies || []);
+  }, [initialMovies]);
+
+  useEffect(() => {
+    const fetchMovies = async () => {
+      setIsLoading(true);
+      try {
+        const data = searchQuery
+          ? await searchMovies(searchQuery)
+          : await getMovies();
+
+        setMovies(Array.isArray(data) ? data : []);
+      } catch (error) {
+        console.error("Error fetching movies:", error);
+        setMovies([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    const debounceTimer = setTimeout(() => {
+      fetchMovies();
+    }, 500);
+
+    return () => clearTimeout(debounceTimer);
+  }, [searchQuery]);
+
   return (
     <>
-      <SearchBar />
+      <SearchBar value={searchQuery} onChange={setSearchQuery} />
 
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 p-4">
-        {movies.map((movie) => (
-          <MovieCard
-            id={movie.id}
-            key={movie.id}
-            title={movie.title}
-            posterUrl={movie.posterUrl}
-            rating={movie.rating}
-          />
-        ))}
-      </div>
+      {isLoading ? (
+        <div className="text-center py-8">Carregando...</div>
+      ) : (
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 p-4">
+          {movies.map((movie) => (
+            <MovieCard
+              id={movie.id}
+              key={movie.id}
+              title={movie.title}
+              posterUrl={movie.posterUrl}
+              rating={movie.rating}
+            />
+          ))}
+        </div>
+      )}
+
       <PagePagination />
     </>
   );

@@ -1,29 +1,49 @@
 import { Movie, MovieResponse } from "@/types/movie";
 import axios from "axios";
 
+const DEFAULT_POSTER_URL = "../assets/no-poster.png";
+
 const api = axios.create({
-  baseURL: "https://api.themoviedb.org/3",
+  baseURL: import.meta.env.VITE_BASE_URL,
   headers: {
     accept: "application/json",
     Authorization: `Bearer ${import.meta.env.VITE_TMDB_TOKEN}`,
   },
 });
 
+const mapMovieResponseToMovie = (movie: MovieResponse): Movie => ({
+  id: movie.id,
+  title: movie.title,
+  posterUrl: movie.poster_path
+    ? `${import.meta.env.VITE_IMAGE_BASE_URL}${movie.poster_path}`
+    : DEFAULT_POSTER_URL,
+  rating: movie.vote_average ? Math.round(movie.vote_average * 10) : 0,
+});
+
+const handleError = (error: unknown, context: string) => {
+  console.error(`Error in ${context}:`, error);
+  return [];
+};
+
+export const searchMovies = async (query: string): Promise<Movie[]> => {
+  try {
+    const response = await api.get<{ results: MovieResponse[] }>(
+      `/search/movie?query=${query}&include_adult=false&language=en-US&page=1`
+    );
+    return response.data.results.map(mapMovieResponseToMovie);
+  } catch (error) {
+    return handleError(error, "searchMovies");
+  }
+};
+
 export const getMovies = async (): Promise<Movie[]> => {
   try {
     const response = await api.get<{ results: MovieResponse[] }>(
       "/movie/now_playing?language=en-US&page=1"
     );
-
-    return response.data.results.map((movie) => ({
-      id: movie.id,
-      title: movie.title,
-      posterUrl: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
-      rating: movie.vote_average ?? 0,
-    }));
+    return response.data.results.map(mapMovieResponseToMovie);
   } catch (error) {
-    console.error("Error fetching movies:", error);
-    return [];
+    return handleError(error, "getMovies");
   }
 };
 
@@ -36,7 +56,9 @@ export const getMovieDetails = async (id: string): Promise<Movie> => {
       id: movie.id,
       title: movie.title,
       original_language: movie.original_language,
-      posterUrl: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+      posterUrl: movie.poster_path
+        ? `${import.meta.env.VITE_IMAGE_BASE_URL}${movie.poster_path}`
+        : DEFAULT_POSTER_URL,
       overview: movie.overview,
       rating: movie.vote_average ?? 0,
       runtime: movie.runtime,
@@ -61,7 +83,7 @@ export const getMovieDetails = async (id: string): Promise<Movie> => {
       id: 0,
       title: "",
       original_language: "",
-      posterUrl: "",
+      posterUrl: DEFAULT_POSTER_URL,
       overview: "",
       rating: 0,
       release_date: "",
