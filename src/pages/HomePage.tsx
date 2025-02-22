@@ -8,8 +8,12 @@ export function HomePage() {
 
   useEffect(() => {
     const fetchMovies = async () => {
-      const movieData = await getMovies();
-      setMovies(movieData);
+      try {
+        const movieData = await getMovies();
+        setMovies(movieData.results);
+      } catch (error) {
+        console.error("Failed to fetch movies:", error);
+      }
     };
 
     fetchMovies();

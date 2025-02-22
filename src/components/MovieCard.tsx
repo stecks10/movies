@@ -39,21 +39,20 @@ const MovieCard = ({ id, title, posterUrl, rating }: MovieCardProps) => {
     </div>
   );
 };
-
 interface MovieGridProps {
-  initialMovies: Movie[];
+  movies: Movie[];
 }
 
-export function MovieGrid({ initialMovies }: MovieGridProps) {
+export function MovieGrid({ movies }: MovieGridProps) {
   const [searchQuery, setSearchQuery] = useState("");
-  const [movies, setMovies] = useState<Movie[]>(initialMovies || []);
+  const [filteredMovies, setFilteredMovies] = useState<Movie[]>(movies || []);
   const [isLoading, setIsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
-    setMovies(initialMovies || []);
-  }, [initialMovies]);
+    setFilteredMovies(movies || []);
+  }, [movies]);
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -63,11 +62,11 @@ export function MovieGrid({ initialMovies }: MovieGridProps) {
           ? await searchMovies(searchQuery, currentPage)
           : await getMovies(currentPage);
 
-        setMovies(data.results);
+        setFilteredMovies(data.results);
         setTotalPages(data.total_pages);
       } catch (error) {
         console.error("Error fetching movies:", error);
-        setMovies([]);
+        setFilteredMovies([]);
       } finally {
         setIsLoading(false);
       }
@@ -92,7 +91,7 @@ export function MovieGrid({ initialMovies }: MovieGridProps) {
         <div className="text-center py-8">Carregando...</div>
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 p-4">
-          {movies.map((movie) => (
+          {filteredMovies.map((movie) => (
             <MovieCard
               id={movie.id}
               key={movie.id}
