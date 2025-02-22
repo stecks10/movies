@@ -72,29 +72,31 @@ export const getMovieDetails = async (id: string): Promise<Movie> => {
     const movie = response.data;
 
     return {
-      id: movie.id,
-      title: movie.title,
-      original_language: movie.original_language,
+      id: movie.id || 0,
+      title: movie.title || "Título não disponível",
+      original_language: movie.original_language || "",
       posterUrl: movie.poster_path
         ? `${import.meta.env.VITE_IMAGE_BASE_URL}${movie.poster_path}`
         : DEFAULT_POSTER_URL,
-      overview: movie.overview,
+      overview: movie.overview || "Sinopse não disponível",
       rating: movie.vote_average ?? 0,
-      runtime: movie.runtime,
-      genres: movie.genres.map((genre: { name: string }) => genre.name),
-      budget: movie.budget,
-      revenue: movie.revenue,
-      production_companies: movie.production_companies.map(
-        (company: { name: string }) => company.name
-      ),
-      production_countries: movie.production_countries.map(
-        (country: { name: string }) => country.name
-      ),
-      tagline: movie.tagline,
-      imdb_id: movie.imdb_id,
-      popularity: movie.popularity,
-      vote_count: movie.vote_count,
-      release_date: movie.release_date,
+      runtime: movie.runtime || 0,
+      genres: movie.genres?.map((genre: { name: string }) => genre.name) || [],
+      budget: movie.budget || 0,
+      revenue: movie.revenue || 0,
+      production_companies:
+        movie.production_companies?.map(
+          (company: { name: string }) => company.name
+        ) || [],
+      production_countries:
+        movie.production_countries?.map(
+          (country: { name: string }) => country.name
+        ) || [],
+      tagline: movie.tagline || "",
+      imdb_id: movie.imdb_id || "",
+      popularity: movie.popularity || 0,
+      vote_count: movie.vote_count || 0,
+      release_date: movie.release_date || "Data de lançamento não disponível",
     };
   } catch (error) {
     console.error("Error fetching movie details:", error);

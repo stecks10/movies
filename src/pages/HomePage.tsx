@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getMovies } from "@/services/api";
 import { Movie } from "@/types/movie";
-import { MovieGrid } from "@/components/MovieCard";
+import { MovieGrid } from "@/components/MovieGrid";
 
 export function HomePage() {
   const [movies, setMovies] = useState<Movie[]>([]);
