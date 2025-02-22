@@ -35,3 +35,8 @@ export interface MovieCardProps {
   posterUrl: string;
   rating?: number;
 }
+
+export interface ApiResponse {
+  results: Movie[];
+  total_pages: number;
+}

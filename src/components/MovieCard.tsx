@@ -1,4 +1,4 @@
-import { Movie, MovieCardProps } from "@/types/movie";
+import { Movie, MovieCardProps, ApiResponse } from "@/types/movie";
 import { useNavigate } from "react-router-dom";
 import { PagePagination } from "./PagePagination";
 import { SearchBar } from "./SearchBar";
@@ -48,6 +48,8 @@ export function MovieGrid({ initialMovies }: MovieGridProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [movies, setMovies] = useState<Movie[]>(initialMovies || []);
   const [isLoading, setIsLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     setMovies(initialMovies || []);
@@ -57,11 +59,12 @@ export function MovieGrid({ initialMovies }: MovieGridProps) {
     const fetchMovies = async () => {
       setIsLoading(true);
       try {
-        const data = searchQuery
-          ? await searchMovies(searchQuery)
-          : await getMovies();
+        const data: ApiResponse = searchQuery
+          ? await searchMovies(searchQuery, currentPage)
+          : await getMovies(currentPage);
 
-        setMovies(Array.isArray(data) ? data : []);
+        setMovies(data.results);
+        setTotalPages(data.total_pages);
       } catch (error) {
         console.error("Error fetching movies:", error);
         setMovies([]);
@@ -75,7 +78,11 @@ export function MovieGrid({ initialMovies }: MovieGridProps) {
     }, 500);
 
     return () => clearTimeout(debounceTimer);
-  }, [searchQuery]);
+  }, [searchQuery, currentPage]);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
 
   return (
     <>
@@ -97,7 +104,11 @@ export function MovieGrid({ initialMovies }: MovieGridProps) {
         </div>
       )}
 
-      <PagePagination />
+      <PagePagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+      />
     </>
   );
 }

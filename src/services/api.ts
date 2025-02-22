@@ -1,4 +1,4 @@
-import { Movie, MovieResponse } from "@/types/movie";
+import { ApiResponse, Movie, MovieResponse } from "@/types/movie";
 import axios from "axios";
 
 const DEFAULT_POSTER_URL = "../assets/no-poster.png";
@@ -20,28 +20,40 @@ const mapMovieResponseToMovie = (movie: MovieResponse): Movie => ({
   rating: movie.vote_average ? Math.round(movie.vote_average * 10) : 0,
 });
 
-const handleError = (error: unknown, context: string) => {
+const handleError = (error: unknown, context: string): ApiResponse => {
   console.error(`Error in ${context}:`, error);
-  return [];
+  return { results: [], total_pages: 1 };
 };
-
-export const searchMovies = async (query: string): Promise<Movie[]> => {
+export const searchMovies = async (
+  query: string,
+  page: number = 1
+): Promise<ApiResponse> => {
   try {
-    const response = await api.get<{ results: MovieResponse[] }>(
-      `/search/movie?query=${query}&include_adult=false&language=en-US&page=1`
+    const response = await api.get<{
+      results: MovieResponse[];
+      total_pages: number;
+    }>(
+      `/search/movie?query=${query}&include_adult=false&language=en-US&page=${page}`
     );
-    return response.data.results.map(mapMovieResponseToMovie);
+    return {
+      results: response.data.results.map(mapMovieResponseToMovie),
+      total_pages: response.data.total_pages,
+    };
   } catch (error) {
     return handleError(error, "searchMovies");
   }
 };
 
-export const getMovies = async (): Promise<Movie[]> => {
+export const getMovies = async (page: number = 1): Promise<ApiResponse> => {
   try {
-    const response = await api.get<{ results: MovieResponse[] }>(
-      "/movie/now_playing?language=en-US&page=1"
-    );
-    return response.data.results.map(mapMovieResponseToMovie);
+    const response = await api.get<{
+      results: MovieResponse[];
+      total_pages: number;
+    }>(`/movie/now_playing?language=en-US&page=${page}`);
+    return {
+      results: response.data.results.map(mapMovieResponseToMovie),
+      total_pages: response.data.total_pages,
+    };
   } catch (error) {
     return handleError(error, "getMovies");
   }
