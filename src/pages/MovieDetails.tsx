@@ -86,19 +86,20 @@ export function MovieDetails() {
               className="w-20 h-20 rounded-full bg-yellow-300 shadow-2xl flex items-center justify-center"
               style={{
                 background: `conic-gradient(
-          yellow ${movie.rating * 10}%, 
-          transparent ${movie.rating * 10}% 100%
-          )`,
+            yellow ${Math.round(movie.rating * 10)}%, 
+            transparent ${Math.round(movie.rating * 10)}% 100%
+            )`,
                 boxShadow: "0 0 10px 5px rgba(255, 223, 0, 0.5)",
               }}
             >
               <div className="flex items-center justify-center w-16 h-16 bg-black rounded-full">
                 <span className="text-white font-bold">
-                  {movie.rating * 10}%
+                  {Math.round(movie.rating * 10)}%
                 </span>
               </div>
             </div>
           </div>
+
           <div className="lg:col-span-3 flex flex-col lg:flex-row gap-4">
             <div className="lg:w-1/2">
               <StatCard title="Lançamento">
