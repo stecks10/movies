@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Movie } from "@/types/movie";
 import { MovieCard } from "./MovieCard";
 import { SkeletonLoader } from "./SkeletonLoader";
@@ -12,12 +12,19 @@ interface MovieGridProps {
 
 export const MovieGrid = ({ initialMovies = [] }: MovieGridProps) => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(() => {
+    const savedPage = localStorage.getItem("currentPage");
+    return savedPage ? parseInt(savedPage, 10) : 1;
+  });
 
   const { movies, totalPages, isLoading, error } = useMovieFetch(
     searchQuery,
     currentPage
   );
+
+  useEffect(() => {
+    localStorage.setItem("currentPage", currentPage.toString());
+  }, [currentPage]);
 
   const handlePageChange = useCallback((page: number) => {
     setCurrentPage(page);

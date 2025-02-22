@@ -25,53 +25,87 @@ const handleError = (error: unknown, context: string): ApiResponse => {
   return { results: [], total_pages: 1 };
 };
 
-// const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+const saveToCache = <T>(key: string, data: T) => {
+  localStorage.setItem(key, JSON.stringify(data));
+};
+
+const getFromCache = <T>(key: string): T | null => {
+  const cachedData = localStorage.getItem(key);
+  return cachedData ? JSON.parse(cachedData) : null;
+};
+
+export const getMovies = async (page: number = 1): Promise<ApiResponse> => {
+  const cacheKey = `getMovies_${page}`;
+
+  const cachedData = getFromCache<ApiResponse>(cacheKey);
+  if (cachedData) {
+    return cachedData;
+  }
+
+  try {
+    const response = await api.get<{
+      results: MovieResponse[];
+      total_pages: number;
+    }>(`/movie/now_playing?language=en-US&page=${page}`);
+
+    const data: ApiResponse = {
+      results: response.data.results.map(mapMovieResponseToMovie),
+      total_pages: response.data.total_pages,
+    };
+
+    saveToCache(cacheKey, data);
+
+    return data;
+  } catch (error) {
+    return handleError(error, "getMovies");
+  }
+};
 
 export const searchMovies = async (
   query: string,
   page: number = 1
 ): Promise<ApiResponse> => {
-  try {
-    // await delay(2000);
+  const cacheKey = `searchMovies_${query}_${page}`;
 
+  const cachedData = getFromCache<ApiResponse>(cacheKey);
+  if (cachedData) {
+    return cachedData;
+  }
+
+  try {
     const response = await api.get<{
       results: MovieResponse[];
       total_pages: number;
     }>(
       `/search/movie?query=${query}&include_adult=false&language=en-US&page=${page}`
     );
-    return {
+
+    const data: ApiResponse = {
       results: response.data.results.map(mapMovieResponseToMovie),
       total_pages: response.data.total_pages,
     };
+
+    saveToCache(cacheKey, data);
+
+    return data;
   } catch (error) {
     return handleError(error, "searchMovies");
   }
 };
 
-export const getMovies = async (page: number = 1): Promise<ApiResponse> => {
-  try {
-    // await delay(2000);
-
-    const response = await api.get<{
-      results: MovieResponse[];
-      total_pages: number;
-    }>(`/movie/now_playing?language=en-US&page=${page}`);
-    return {
-      results: response.data.results.map(mapMovieResponseToMovie),
-      total_pages: response.data.total_pages,
-    };
-  } catch (error) {
-    return handleError(error, "getMovies");
-  }
-};
-
 export const getMovieDetails = async (id: string): Promise<Movie> => {
+  const cacheKey = `getMovieDetails_${id}`;
+
+  const cachedData = getFromCache<Movie>(cacheKey);
+  if (cachedData) {
+    return cachedData;
+  }
+
   try {
     const response = await api.get(`/movie/${id}?language=pt-BR`);
     const movie = response.data;
 
-    return {
+    const data: Movie = {
       id: movie.id || 0,
       title: movie.title || "Título não disponível",
       original_language: movie.original_language || "",
@@ -98,6 +132,10 @@ export const getMovieDetails = async (id: string): Promise<Movie> => {
       vote_count: movie.vote_count || 0,
       release_date: movie.release_date || "Data de lançamento não disponível",
     };
+
+    saveToCache(cacheKey, data);
+
+    return data;
   } catch (error) {
     console.error("Error fetching movie details:", error);
     return {
