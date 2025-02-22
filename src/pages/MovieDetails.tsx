@@ -13,7 +13,13 @@ const StatCard = ({
   const isLongValue = value.length > 10;
 
   return (
-    <div className="bg-[#1E1D1B] text-white rounded-lg p-4 shadow-lg w-full">
+    <div
+      className="bg-zinc-500 text-white rounded-lg p-4 shadow-lg w-full"
+      style={{
+        backgroundColor: "rgba(30, 29, 27, 0.8)",
+        boxShadow: "0 4px 14px rgba(0, 0, 0, 0.25)",
+      }}
+    >
       <p className="font-semibold uppercase text-sm text-gray-400 text-center overflow-hidden text-ellipsis">
         {title}
       </p>
@@ -76,11 +82,23 @@ export function MovieDetails() {
           <StatCard title="Votos">{movie.vote_count}</StatCard>
 
           <div className="flex justify-center items-center">
-            <div className="w-20 h-20 border-4 border-yellow-500 rounded-full bg-black shadow-lg flex items-center justify-center">
-              <span className="text-white font-bold ">{movie.rating}%</span>
+            <div
+              className="w-20 h-20 rounded-full bg-yellow-300 shadow-2xl flex items-center justify-center"
+              style={{
+                background: `conic-gradient(
+          yellow ${movie.rating * 10}%, 
+          transparent ${movie.rating * 10}% 100%
+          )`,
+                boxShadow: "0 0 10px 5px rgba(255, 223, 0, 0.5)",
+              }}
+            >
+              <div className="flex items-center justify-center w-16 h-16 bg-black rounded-full">
+                <span className="text-white font-bold">
+                  {movie.rating * 10}%
+                </span>
+              </div>
             </div>
           </div>
-
           <div className="lg:col-span-3 flex flex-col lg:flex-row gap-4">
             <div className="lg:w-1/2">
               <StatCard title="Lançamento">
