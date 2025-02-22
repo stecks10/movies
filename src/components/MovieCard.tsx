@@ -4,6 +4,7 @@ import { PagePagination } from "./PagePagination";
 import { SearchBar } from "./SearchBar";
 import { getMovies, searchMovies } from "@/services/api";
 import { useState, useEffect } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const MovieCard = ({ id, title, posterUrl, rating }: MovieCardProps) => {
   const navigate = useNavigate();
@@ -39,6 +40,7 @@ const MovieCard = ({ id, title, posterUrl, rating }: MovieCardProps) => {
     </div>
   );
 };
+
 interface MovieGridProps {
   movies: Movie[];
 }
@@ -88,7 +90,15 @@ export function MovieGrid({ movies }: MovieGridProps) {
       <SearchBar value={searchQuery} onChange={setSearchQuery} />
 
       {isLoading ? (
-        <div className="text-center py-8">Carregando...</div>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 p-4">
+          {Array.from({ length: 10 }).map((_, index) => (
+            <div key={index} className="space-y-4">
+              <Skeleton className="h-[300px] w-full rounded-lg bg-gray-700" />{" "}
+              <Skeleton className="h-6 w-3/4 rounded bg-gray-700" />{" "}
+              <Skeleton className="h-4 w-1/2 rounded bg-gray-700" />{" "}
+            </div>
+          ))}
+        </div>
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 p-4">
           {filteredMovies.map((movie) => (

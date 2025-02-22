@@ -24,11 +24,16 @@ const handleError = (error: unknown, context: string): ApiResponse => {
   console.error(`Error in ${context}:`, error);
   return { results: [], total_pages: 1 };
 };
+
+// const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 export const searchMovies = async (
   query: string,
   page: number = 1
 ): Promise<ApiResponse> => {
   try {
+    // await delay(2000);
+
     const response = await api.get<{
       results: MovieResponse[];
       total_pages: number;
@@ -46,6 +51,8 @@ export const searchMovies = async (
 
 export const getMovies = async (page: number = 1): Promise<ApiResponse> => {
   try {
+    // await delay(2000);
+
     const response = await api.get<{
       results: MovieResponse[];
       total_pages: number;
