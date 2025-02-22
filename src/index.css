@@ -9,6 +9,8 @@
 }
 
 :root {
+  --background-image-light: url("/src/assets/background-light.png");
+  --background-image-dark: url("/src/assets/background-dark.png");
   --background: hsl(0 0% 100%);
   --foreground: hsl(240 10% 3.9%);
   --card: hsl(0 0% 100%);
@@ -101,4 +103,21 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+body {
+  background-image: var(--background-image-light);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+}
+
+/* Aplicar a imagem de fundo no tema dark */
+.dark body {
+  background-image: var(--background-image-dark);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
 }
