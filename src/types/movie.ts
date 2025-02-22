@@ -18,10 +18,6 @@ export interface Movie {
   vote_count?: number;
 }
 
-export interface MovieGridProps {
-  movies: Movie[];
-}
-
 export interface MovieResponse {
   id: number;
   title: string;

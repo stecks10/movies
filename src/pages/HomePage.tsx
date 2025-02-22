@@ -21,7 +21,7 @@ export function HomePage() {
 
   return (
     <div className="container mx-auto p-4">
-      <MovieGrid movies={movies} />
+      <MovieGrid initialMovies={movies} />
     </div>
   );
 }
