@@ -46,10 +46,10 @@ export const getMovies = async (page: number = 1): Promise<ApiResponse> => {
     const response = await api.get<{
       results: MovieResponse[];
       total_pages: number;
-    }>(`/movie/now_playing?language=en-US&page=${page}&per_page=10`);
+    }>(`/movie/now_playing?language=en-US&page=${page}`);
 
     const data: ApiResponse = {
-      results: response.data.results.map(mapMovieResponseToMovie),
+      results: response.data.results.slice(0, 10).map(mapMovieResponseToMovie), // Limitar a 10 itens
       total_pages: response.data.total_pages,
     };
 

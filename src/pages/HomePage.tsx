@@ -10,7 +10,7 @@ export function HomePage() {
     const fetchMovies = async () => {
       try {
         const movieData = await getMovies();
-        setMovies(movieData.results);
+        setMovies(movieData.results.slice(0, 10)); // Limitar a 10 itens
       } catch (error) {
         console.error("Failed to fetch movies:", error);
       }

@@ -21,18 +21,16 @@ export const useMovieFetch = (
 
       try {
         const apiResponse: ApiResponse = searchQuery
-          ? await searchMovies(searchQuery, Math.ceil(currentPage / 2))
+          ? await searchMovies(searchQuery, currentPage)
           : selectedGenre !== null
-          ? await getMoviesByGenre(selectedGenre, Math.ceil(currentPage / 2))
-          : await getMovies(Math.ceil(currentPage / 2));
+          ? await getMoviesByGenre(selectedGenre, currentPage)
+          : await getMovies(currentPage);
 
-        const startIndex = currentPage % 2 === 0 ? 10 : 0;
-        const endIndex = startIndex + 10;
-        const paginatedMovies = apiResponse.results.slice(startIndex, endIndex);
+        const paginatedMovies = apiResponse.results.slice(0, 10); // Limitar a 10 itens
 
         setData({
           movies: paginatedMovies,
-          totalPages: Math.ceil(apiResponse.total_pages * 2),
+          totalPages: apiResponse.total_pages,
         });
       } catch (err) {
         setError("Falha ao carregar filmes. Tente novamente mais tarde.");
