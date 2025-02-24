@@ -36,8 +36,12 @@ export function PagePagination({
   return (
     <Pagination className="gap-4">
       <PaginationPrevious
-        onClick={handlePrevious}
-        className="border border-zinc-200  hover:bg-black"
+        onClick={currentPage === 1 ? undefined : handlePrevious}
+        className={`${
+          currentPage === 1
+            ? "bg-zinc-800 text-zinc-500 cursor-not-allowed"
+            : "bg-purple-300 text-black hover:bg-purple-500"
+        }`}
       />
       <PaginationContent className="gap-2">
         {Array.from({ length: endPage - startPage + 1 }, (_, index) => {
@@ -48,8 +52,8 @@ export function PagePagination({
                 isActive={currentPage === page}
                 className={
                   currentPage === page
-                    ? "bg-black-600 text-white hover:bg-purple-300 hover:text-black"
-                    : "bg-purple-600 text-white hover:bg-purple-300 hover:text-black"
+                    ? "bg-black text-white border-zinc-100"
+                    : "bg-purple-700 text-white hover:bg-purple-500"
                 }
                 onClick={() => onPageChange(page)}
               >
@@ -61,7 +65,11 @@ export function PagePagination({
       </PaginationContent>
       <PaginationNext
         onClick={handleNext}
-        className="bg-purple-600 text-white hover:bg-purple-700"
+        className={`${
+          currentPage === totalPages
+            ? "bg-zinc-800 text-zinc-500 cursor-not-allowed"
+            : "bg-purple-300 text-black hover:bg-purple-500"
+        } ${currentPage === totalPages ? "cursor-not-allowed" : ""}`}
       />
     </Pagination>
   );

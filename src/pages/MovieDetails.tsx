@@ -36,7 +36,7 @@ const StatCard = ({
 };
 
 const GenreTag = ({ genre }: { genre: string }) => (
-  <span className="bg-[#C150FF2E] text-[#ECD9FA] px-3 py-1 rounded-md text-sm font-semibold">
+  <span className="bg-[#C150FF2E] dark:text-[#ECD9FA] px-3 py-1 rounded-md text-sm font-semibold text-zinc-900">
     {genre}
   </span>
 );
@@ -77,12 +77,18 @@ export function MovieDetails() {
           )}
         </div>
 
-        <div className="space-y-6 text-white">
+        <div className="space-y-6 dark:text-white text-zinc-800">
           <h1 className="text-4xl font-extrabold">
             {movie.title || "Título não disponível"}
           </h1>
 
-          <div className="bg-[#1E1D1B] rounded-lg p-6 shadow-lg">
+          <div
+            className="bg-zinc-500 text-white rounded-lg p-4 shadow-lg w-full"
+            style={{
+              backgroundColor: "rgba(30, 29, 27, 0.8)",
+              boxShadow: "0 4px 14px rgba(0, 0, 0, 0.25)",
+            }}
+          >
             <p>{movie.overview || "Sinopse não disponível"}</p>
           </div>
 
