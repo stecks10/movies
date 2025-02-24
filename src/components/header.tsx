@@ -17,6 +17,7 @@ export function Header() {
           src={theme === "dark" ? logoDark : logoLight}
           alt="Logo Cubos"
           className="h-8 cursor-pointer"
+          onClick={handleNavigateTohome}
         />
         <h1
           className="text-start flex-1 ml-3 text-black dark:text-white text-bold text-2xl cursor-pointer"
