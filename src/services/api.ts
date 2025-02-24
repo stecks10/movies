@@ -158,3 +158,32 @@ export const getMovieDetails = async (id: string): Promise<Movie> => {
     };
   }
 };
+
+export const getMoviesByGenre = async (
+  genreId: number,
+  page: number = 1
+): Promise<ApiResponse> => {
+  const cacheKey = `getMoviesByGenre_${genreId}_${page}`;
+
+  const cachedData = getFromCache<ApiResponse>(cacheKey);
+  if (cachedData) {
+    return cachedData;
+  }
+
+  try {
+    const response = await api.get<{
+      results: MovieResponse[];
+      total_pages: number;
+    }>(`/discover/movie?with_genres=${genreId}&language=en-US&page=${page}`);
+
+    const data: ApiResponse = {
+      results: response.data.results.map(mapMovieResponseToMovie),
+      total_pages: response.data.total_pages,
+    };
+
+    saveToCache(cacheKey, data);
+    return data;
+  } catch (error) {
+    return handleError(error, "getMoviesByGenre");
+  }
+};

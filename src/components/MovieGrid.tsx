@@ -12,6 +12,7 @@ interface MovieGridProps {
 
 export const MovieGrid = ({ initialMovies = [] }: MovieGridProps) => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedGenre, setSelectedGenre] = useState<number | null>(null);
   const [currentPage, setCurrentPage] = useState(() => {
     const savedPage = localStorage.getItem("currentPage");
     return savedPage ? parseInt(savedPage, 10) : 1;
@@ -19,24 +20,37 @@ export const MovieGrid = ({ initialMovies = [] }: MovieGridProps) => {
 
   const { movies, totalPages, isLoading, error } = useMovieFetch(
     searchQuery,
-    currentPage
+    currentPage,
+    selectedGenre
   );
 
   useEffect(() => {
     localStorage.setItem("currentPage", currentPage.toString());
   }, [currentPage]);
 
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedGenre]);
+
   const handlePageChange = useCallback((page: number) => {
     setCurrentPage(page);
   }, []);
 
+  const handleGenreChange = useCallback((genreId: number | null) => {
+    setSelectedGenre(genreId);
+    setCurrentPage(1);
+  }, []);
+
   return (
     <>
-      <SearchBar value={searchQuery} onChange={setSearchQuery} />
+      <SearchBar
+        value={searchQuery}
+        onChange={setSearchQuery}
+        onGenreChange={handleGenreChange}
+      />
 
       <div className="space-y-8 shadow-lg dark:shadow-zinc-800 rounded-lg p-6">
         {error && <div className="text-red-500 text-center p-4">{error}</div>}
-
         {isLoading ? (
           <SkeletonLoader />
         ) : (
@@ -52,7 +66,6 @@ export const MovieGrid = ({ initialMovies = [] }: MovieGridProps) => {
             ))}
           </div>
         )}
-
         <PagePagination
           currentPage={currentPage}
           totalPages={totalPages}

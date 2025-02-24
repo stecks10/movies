@@ -1,8 +1,12 @@
 import { useState, useEffect } from "react";
 import { Movie, ApiResponse } from "@/types/movie";
-import { getMovies, searchMovies } from "@/services/api";
+import { getMovies, searchMovies, getMoviesByGenre } from "@/services/api";
 
-export const useMovieFetch = (searchQuery: string, currentPage: number) => {
+export const useMovieFetch = (
+  searchQuery: string,
+  currentPage: number,
+  selectedGenre: number | null
+) => {
   const [data, setData] = useState<{ movies: Movie[]; totalPages: number }>({
     movies: [],
     totalPages: 1,
@@ -18,6 +22,8 @@ export const useMovieFetch = (searchQuery: string, currentPage: number) => {
       try {
         const apiResponse: ApiResponse = searchQuery
           ? await searchMovies(searchQuery, Math.ceil(currentPage / 2))
+          : selectedGenre !== null
+          ? await getMoviesByGenre(selectedGenre, Math.ceil(currentPage / 2))
           : await getMovies(Math.ceil(currentPage / 2));
 
         const startIndex = currentPage % 2 === 0 ? 10 : 0;
@@ -38,7 +44,7 @@ export const useMovieFetch = (searchQuery: string, currentPage: number) => {
 
     const debounceTimer = setTimeout(fetchData, 500);
     return () => clearTimeout(debounceTimer);
-  }, [searchQuery, currentPage]);
+  }, [searchQuery, currentPage, selectedGenre]);
 
   return { ...data, isLoading, error };
 };
