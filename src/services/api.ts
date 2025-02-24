@@ -46,7 +46,7 @@ export const getMovies = async (page: number = 1): Promise<ApiResponse> => {
     const response = await api.get<{
       results: MovieResponse[];
       total_pages: number;
-    }>(`/movie/now_playing?language=en-US&page=${page}`);
+    }>(`/movie/now_playing?language=en-US&page=${page}&per_page=10`);
 
     const data: ApiResponse = {
       results: response.data.results.map(mapMovieResponseToMovie),
@@ -54,7 +54,6 @@ export const getMovies = async (page: number = 1): Promise<ApiResponse> => {
     };
 
     saveToCache(cacheKey, data);
-
     return data;
   } catch (error) {
     return handleError(error, "getMovies");

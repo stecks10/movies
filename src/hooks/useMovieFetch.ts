@@ -17,12 +17,16 @@ export const useMovieFetch = (searchQuery: string, currentPage: number) => {
 
       try {
         const apiResponse: ApiResponse = searchQuery
-          ? await searchMovies(searchQuery, currentPage)
-          : await getMovies(currentPage);
+          ? await searchMovies(searchQuery, Math.ceil(currentPage / 2))
+          : await getMovies(Math.ceil(currentPage / 2));
+
+        const startIndex = currentPage % 2 === 0 ? 10 : 0;
+        const endIndex = startIndex + 10;
+        const paginatedMovies = apiResponse.results.slice(startIndex, endIndex);
 
         setData({
-          movies: apiResponse.results,
-          totalPages: apiResponse.total_pages,
+          movies: paginatedMovies,
+          totalPages: Math.ceil(apiResponse.total_pages * 2),
         });
       } catch (err) {
         setError("Falha ao carregar filmes. Tente novamente mais tarde.");
