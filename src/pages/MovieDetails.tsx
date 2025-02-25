@@ -24,7 +24,7 @@ const StatCard = ({
       <p className="font-semibold uppercase text-xs sm:text-sm text-gray-400 text-center overflow-hidden text-ellipsis">
         {title}
       </p>
-      <p
+      <div
         className={`mt-1 text-center whitespace-nowrap overflow-hidden text-ellipsis ${
           isLongValue ? "text-sm" : "text-base"
         } sm:${isLongValue ? "text-base" : "text-xl"} ${
@@ -32,7 +32,7 @@ const StatCard = ({
         }`}
       >
         {children}
-      </p>
+      </div>
     </div>
   );
 };
