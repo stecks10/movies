@@ -3,11 +3,19 @@ import axios from "axios";
 
 const DEFAULT_POSTER_URL = "../assets/no-poster.png";
 
+const VITE_TMDB_TOKEN = import.meta.env.VITE_TMDB_TOKEN;
+const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
+const VITE_IMAGE_BASE_URL = import.meta.env.VITE_IMAGE_BASE_URL;
+
+if (!VITE_TMDB_TOKEN || !VITE_BASE_URL || !VITE_IMAGE_BASE_URL) {
+  throw new Error("Variáveis de ambiente não definidas corretamente.");
+}
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_BASE_URL,
+  baseURL: VITE_BASE_URL,
   headers: {
     accept: "application/json",
-    Authorization: `Bearer ${import.meta.env.VITE_TMDB_TOKEN}`,
+    Authorization: `Bearer ${VITE_TMDB_TOKEN}`,
   },
 });
 
@@ -15,7 +23,7 @@ const mapMovieResponseToMovie = (movie: MovieResponse): Movie => ({
   id: movie.id,
   title: movie.title,
   posterUrl: movie.poster_path
-    ? `${import.meta.env.VITE_IMAGE_BASE_URL}${movie.poster_path}`
+    ? `${VITE_IMAGE_BASE_URL}${movie.poster_path}`
     : DEFAULT_POSTER_URL,
   rating: movie.vote_average ? Math.round(movie.vote_average * 10) : 0,
 });
@@ -49,7 +57,7 @@ export const getMovies = async (page: number = 1): Promise<ApiResponse> => {
     }>(`/movie/now_playing?language=en-US&page=${page}`);
 
     const data: ApiResponse = {
-      results: response.data.results.slice(0, 10).map(mapMovieResponseToMovie), // Limitar a 10 itens
+      results: response.data.results.slice(0, 10).map(mapMovieResponseToMovie),
       total_pages: response.data.total_pages,
     };
 
@@ -109,7 +117,7 @@ export const getMovieDetails = async (id: string): Promise<Movie> => {
       title: movie.title || "Título não disponível",
       original_language: movie.original_language || "",
       posterUrl: movie.poster_path
-        ? `${import.meta.env.VITE_IMAGE_BASE_URL}${movie.poster_path}`
+        ? `${VITE_IMAGE_BASE_URL}${movie.poster_path}`
         : DEFAULT_POSTER_URL,
       overview: movie.overview || "Sinopse não disponível",
       rating: movie.vote_average ?? 0,
