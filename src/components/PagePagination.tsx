@@ -39,9 +39,9 @@ export function PagePagination({
         onClick={currentPage === 1 ? undefined : handlePrevious}
         className={`${
           currentPage === 1
-            ? "bg-zinc-800 text-zinc-500 cursor-not-allowed"
-            : "bg-purple-300 text-black hover:bg-purple-500"
-        }`}
+            ? "bg-zinc-800 text-zinc-500 cursor-not-allowed border border-zinc-500"
+            : "bg-purple-300 text-black hover:bg-purple-500 hover:text-white"
+        } px-4 py-2 rounded`}
       />
       <PaginationContent className="gap-2">
         {Array.from({ length: endPage - startPage + 1 }, (_, index) => {
@@ -53,7 +53,7 @@ export function PagePagination({
                 className={
                   currentPage === page
                     ? "bg-black text-white border-zinc-100"
-                    : "bg-purple-700 text-white hover:bg-purple-500"
+                    : "bg-purple-700 text-white hover:bg-purple-500 hover:text-white"
                 }
                 onClick={() => onPageChange(page)}
               >
@@ -67,9 +67,9 @@ export function PagePagination({
         onClick={handleNext}
         className={`${
           currentPage === totalPages
-            ? "bg-zinc-800 text-zinc-500 cursor-not-allowed"
-            : "bg-purple-300 text-black hover:bg-purple-500"
-        } ${currentPage === totalPages ? "cursor-not-allowed" : ""}`}
+            ? "bg-zinc-800 text-zinc-500 cursor-not-allowed border border-zinc-500"
+            : "bg-purple-300 text-black hover:bg-purple-500 hover:text-white"
+        } px-4 py-2 rounded`}
       />
     </Pagination>
   );
