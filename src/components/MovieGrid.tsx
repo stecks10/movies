@@ -49,7 +49,7 @@ export const MovieGrid = ({ initialMovies = [] }: MovieGridProps) => {
         onGenreChange={handleGenreChange}
       />
 
-      <div className="space-y-8 shadow-lg dark:shadow-zinc-800 rounded-lg p-6">
+      <div className="space-y-8 shadow-lg dark:shadow-zinc-800 rounded-lg p-6 bg-[#EBEAF814]">
         {error && <div className="text-red-500 text-center p-4">{error}</div>}
         {isLoading ? (
           <SkeletonLoader />
@@ -62,6 +62,7 @@ export const MovieGrid = ({ initialMovies = [] }: MovieGridProps) => {
                 title={movie.title}
                 posterUrl={movie.posterUrl}
                 rating={movie.rating}
+                genre_ids={movie.genre_ids} // Adicione esta linha
               />
             ))}
           </div>

@@ -26,6 +26,7 @@ const mapMovieResponseToMovie = (movie: MovieResponse): Movie => ({
     ? `${VITE_IMAGE_BASE_URL}${movie.poster_path}`
     : DEFAULT_POSTER_URL,
   rating: movie.vote_average ? Math.round(movie.vote_average * 10) : 0,
+  genre_ids: movie.genre_ids,
 });
 
 const handleError = (error: unknown, context: string): ApiResponse => {
