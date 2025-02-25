@@ -38,7 +38,7 @@ const StatCard = ({
 };
 
 const GenreTag = ({ genre }: { genre: string }) => (
-  <span className="bg-[#C150FF2E] dark:text-[#ECD9FA] px-3 py-1 rounded-md text-sm font-semibold text-zinc-900">
+  <span className="bg-[#C150FF2E] dark:text-[#ECD9FA] text-white px-3 py-1 rounded-md text-sm font-semibold ">
     {genre}
   </span>
 );
