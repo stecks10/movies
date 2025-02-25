@@ -31,7 +31,7 @@ export const MovieCard = ({
   title,
   posterUrl,
   rating = 0,
-  genre_ids = [], // Adicione esta linha
+  genre_ids = [],
 }: MovieCardProps) => {
   const navigate = useNavigate();
   const [imageError, setImageError] = useState(false);

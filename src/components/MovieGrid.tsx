@@ -62,7 +62,7 @@ export const MovieGrid = ({ initialMovies = [] }: MovieGridProps) => {
                 title={movie.title}
                 posterUrl={movie.posterUrl}
                 rating={movie.rating}
-                genre_ids={movie.genre_ids} // Adicione esta linha
+                genre_ids={movie.genre_ids}
               />
             ))}
           </div>

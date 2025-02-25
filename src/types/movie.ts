@@ -16,7 +16,7 @@ export interface Movie {
   imdb_id?: string;
   popularity?: number;
   vote_count?: number;
-  genre_ids?: number[]; // Adicione esta linha
+  genre_ids?: number[];
 }
 
 export interface MovieResponse {
@@ -24,7 +24,7 @@ export interface MovieResponse {
   title: string;
   poster_path: string;
   vote_average: number;
-  genre_ids: number[]; // Corrija esta linha
+  genre_ids: number[];
 }
 
 export interface MovieCardProps {
@@ -32,7 +32,7 @@ export interface MovieCardProps {
   title: string;
   posterUrl: string;
   rating?: number;
-  genre_ids?: number[]; // Adicione esta linha
+  genre_ids?: number[];
 }
 
 export interface ApiResponse {

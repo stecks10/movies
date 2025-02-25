@@ -62,7 +62,7 @@ export function MovieDetails() {
             <img
               src={movie.posterUrl}
               alt={movie.title || "Título não disponível"}
-              className="w-full h-auto object-cover rounded-lg transform transition-all duration-300 hover:scale-105"
+              className="w-full max-w-[400px] h-auto mx-auto object-cover rounded-lg transform transition-all duration-300 hover:scale-105"
               onError={() => setImageError(true)}
             />
           ) : (

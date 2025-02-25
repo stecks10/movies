@@ -26,7 +26,7 @@ export const useMovieFetch = (
           ? await getMoviesByGenre(selectedGenre, currentPage)
           : await getMovies(currentPage);
 
-        const paginatedMovies = apiResponse.results.slice(0, 10); // Limitar a 10 itens
+        const paginatedMovies = apiResponse.results.slice(0, 10);
 
         setData({
           movies: paginatedMovies,

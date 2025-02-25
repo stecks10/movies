@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "@/hooks/theme-provider";
 import { HomePage } from "./pages/HomePage";
-import { MovieDetails } from "./pages/MovieDetails";
 import { Header } from "./components/header";
+import { MovieDetails } from "./pages/MovieDetails";
 
 function App() {
   return (
