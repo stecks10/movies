@@ -15,7 +15,7 @@ const StatCard = ({
 
   return (
     <div
-      className="bg-zinc-500 text-white rounded-lg p-2 sm:p-4 shadow-lg w-full"
+      className="bg-zinc-500 text-white rounded-lg p-2 sm:p-4 shadow-lg w-full min-w-0"
       style={{
         backgroundColor: "rgba(30, 29, 27, 0.8)",
         boxShadow: "0 4px 14px rgba(0, 0, 0, 0.25)",
@@ -84,7 +84,7 @@ export function MovieDetails() {
             {movie.title || "Título não disponível"}
           </h1>
 
-          <div className="lg:hidden grid grid-cols-3 gap-2">
+          <div className="lg:hidden grid grid-cols-3 gap-2 min-w-0">
             <StatCard title="Popularidade">
               {movie.popularity || "Não disponível"}
             </StatCard>
@@ -165,7 +165,7 @@ export function MovieDetails() {
           </div>
         </div>
 
-        <div className="hidden lg:grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <div className="hidden lg:grid grid-cols-3 gap-4 items-stretch">
           <StatCard title="Popularidade">
             {movie.popularity || "Não disponível"}
           </StatCard>
@@ -173,21 +173,23 @@ export function MovieDetails() {
             {movie.vote_count || "Não disponível"}
           </StatCard>
 
-          <div className="flex justify-center items-center">
-            <div
-              className="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-yellow-300 shadow-2xl flex items-center justify-center"
-              style={{
-                background: `conic-gradient(
-                  yellow ${Math.round(movie.rating * 10)}%, 
-                  transparent ${Math.round(movie.rating * 10)}% 100%
+          <div className="flex justify-center items-stretch">
+            <div className="w-full flex justify-center items-center">
+              <div
+                className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-yellow-300 shadow-2xl flex items-center justify-center"
+                style={{
+                  background: `conic-gradient(
+                yellow ${Math.round(movie.rating * 10)}%, 
+                transparent ${Math.round(movie.rating * 10)}% 100%
                 )`,
-                boxShadow: "0 0 10px 5px rgba(255, 223, 0, 0.5)",
-              }}
-            >
-              <div className="flex items-center justify-center w-20 h-20 bg-black rounded-full">
-                <span className="text-white font-bold text-lg sm:text-xl">
-                  {Math.round(movie.rating * 10)}%
-                </span>
+                  boxShadow: "0 0 10px 5px rgba(255, 223, 0, 0.5)",
+                }}
+              >
+                <div className="flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 bg-black rounded-full">
+                  <span className="text-white font-bold text-xs sm:text-sm">
+                    {Math.round(movie.rating * 10)}%
+                  </span>
+                </div>
               </div>
             </div>
           </div>
