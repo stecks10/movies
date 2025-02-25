@@ -3,6 +3,7 @@ import { ThemeProvider } from "@/hooks/theme-provider";
 import { HomePage } from "./pages/HomePage";
 import { Header } from "./components/header";
 import { MovieDetails } from "./pages/MovieDetails";
+import { Footer } from "./components/Footer";
 
 function App() {
   return (
@@ -15,6 +16,8 @@ function App() {
             <Route path="/movie/:id" element={<MovieDetails />} />
           </Routes>
         </main>
+
+        <Footer />
       </Router>
     </ThemeProvider>
   );

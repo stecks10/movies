@@ -1,50 +1,65 @@
-# React + TypeScript + Vite
+# Movies App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este é um aplicativo de filmes desenvolvido com React, TypeScript e Vite. Ele utiliza várias bibliotecas modernas para fornecer uma experiência de usuário rica e interativa.
 
-Currently, two official plugins are available:
+## Tecnologias Utilizadas
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **React**: Biblioteca JavaScript para construção de interfaces de usuário.
+- **TypeScript**: Superset do JavaScript que adiciona tipagem estática.
+- **Vite**: Ferramenta de build rápida e moderna.
+- **Tailwind CSS**: Framework de CSS utilitário para estilização rápida.
+- **Axios**: Cliente HTTP baseado em Promises para fazer requisições.
 
-## Expanding the ESLint configuration
+- **Shadcnui**: Biblioteca de componentes para construção de interfaces de usuário.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Design
 
-- Configure the top-level `parserOptions` property like this:
+O design do aplicativo pode ser visualizado no Figma através do seguinte link: [Figma Design](https://www.figma.com/design/yhag2s5vJBXMgyGabBIA3Y/Cubos---Movies?node-id=756-1355&t=sdsMLbBagyQE2Dwb-0)
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## API TMDB
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+A API do TMDB será utilizada para buscar os dados dos filmes. A documentação pode ser encontrada no [site oficial do TMDB](https://developer.themoviedb.org/docs/getting-started).
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+### Passos para Configuração
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+1. **Crie uma conta no TMDB:**
+
+- Acesse o [site do TMDB](https://www.themoviedb.org/signup) e crie uma conta.
+
+2. **Gere uma chave de autenticação:**
+
+- Após criar a conta, vá para a seção de [API Keys](https://www.themoviedb.org/settings/api) e gere sua chave de API.
+
+3. **Configure o arquivo `.env`:**
+
+- Copie o conteúdo do arquivo `.env.local.example` para um novo arquivo chamado `.env`.
+- Adicione sua chave de API ao arquivo `.env`:
+  ```env
+  VITE_TMDB_API_KEY=sua_chave_api_aqui
+  ```
+
+## Como Baixar e Executar o Aplicativo
+
+Siga os passos abaixo para baixar e executar o aplicativo localmente:
+
+1. **Clone o repositório:**
+
+   ```sh
+   git clone https://github.com/stecks10/movies.git
+   cd movies
+   ```
+
+2. **Instale as dependências:**
+
+   ```sh
+   npm install
+   ```
+
+3. **Inicie o servidor de desenvolvimento:**
+   ```sh
+   npm run dev
+   ```
+
+## Licença
+
+Este projeto está licenciado por Cubos.
