@@ -9,7 +9,7 @@ function App() {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <Router>
-        <main className="container mx-auto">
+        <main className="container mx-auto mb-16">
           <Header />
           <Routes>
             <Route path="/" element={<HomePage />} />
