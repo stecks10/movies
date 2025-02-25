@@ -32,11 +32,15 @@ A API do TMDB será utilizada para buscar os dados dos filmes. A documentação 
 
 3. **Configure o arquivo `.env`:**
 
-- Copie o conteúdo do arquivo `.env.local.example` para um novo arquivo chamado `.env`.
-- Adicione sua chave de API ao arquivo `.env`:
-  ```env
-  VITE_TMDB_API_KEY=sua_chave_api_aqui
-  ```
+- Copie Adicione sua chave de API ao arquivo `.env`:
+
+```env
+VITE_TMDB_API_KEY=sua_chave_api_aqui
+
+VITE_BASE_URL=https://api.themoviedb.org/3
+
+VITE_IMAGE_BASE_URL=https://image.tmdb.org/t/p/w500
+```
 
 ## Como Baixar e Executar o Aplicativo
 
