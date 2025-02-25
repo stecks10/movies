@@ -1,23 +1,24 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "@/hooks/theme-provider";
 import { HomePage } from "./pages/HomePage";
-import { Header } from "./components/header";
 import { MovieDetails } from "./pages/MovieDetails";
 import { Footer } from "./components/Footer";
+import { Header } from "./components/header";
 
 function App() {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <Router>
-        <main className="container mx-auto mb-16">
+        <div className="flex flex-col min-h-screen">
           <Header />
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/movie/:id" element={<MovieDetails />} />
-          </Routes>
-        </main>
-
-        <Footer />
+          <main className="flex-grow container mx-auto">
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/movie/:id" element={<MovieDetails />} />
+            </Routes>
+          </main>
+          <Footer />
+        </div>
       </Router>
     </ThemeProvider>
   );
